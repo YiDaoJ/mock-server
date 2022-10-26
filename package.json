@@ -1,0 +1,24 @@
+{
+	"name": "sbg-ag-dm-mock-server",
+	"version": "1.0.0",
+	"description": "Mock server faking commercetools and other external systems",
+	"scripts": {
+		"start:debug": "DEBUG=stubr* nodemon",
+		"dev": "nodemon",
+		"build": "tsc",
+		"docker-build-local": "docker build --no-cache -t mock-server:latest .",
+		"start": "pm2 start mock-server.js"
+	},
+	"dependencies": {
+		"@types/node": "16.11.59",
+		"axios": "0.27.2",
+		"lodash": "4.17.21",
+		"moment": "2.29.4",
+		"nodemon": "2.0.19",
+		"pm2": "5.2.0",
+		"stubr": "0.5.1",
+		"ts-node": "10.9.1",
+		"typescript": "4.8.3",
+		"xml2js": "0.4.23"
+	}
+}
