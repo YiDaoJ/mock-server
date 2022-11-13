@@ -1,5 +1,6 @@
 import Stubr from "stubr";
 import { Method } from "stubr";
+import { events } from "./utils";
 
 // instantiate Stubr
 const stubr = new Stubr({
@@ -12,7 +13,7 @@ const stubr = new Stubr({
  */
 stubr.register({
   name: "GET",
-  route: "/fruits",
+  route: "/events",
   method: Method.GET,
   validate: (
     requestHeaders: object,
@@ -23,82 +24,61 @@ stubr.register({
   },
   responseCode: 200,
   responseBody: {
-    fruits: ["Apfel", "Birne", "Erdbeere"],
+    events,
   },
 });
 
-/**
- * ========== register route jsframeworks =========
- */
+// stubr.register({
+//   name: "POST",
+//   route: "/jsframeworks",
+//   method: Method.POST,
+//   validate: (
+//     requestHeaders: object,
+//     requestBody: object,
+//     requestParams: object
+//   ) => {
+//     return true;
+//   },
+//   responseCode: 200,
+//   responseBody: (
+//     requestHeaders,
+//     requestBody: { selected: string },
+//     requestParams
+//   ) => {
+//     console.log({ requestBody, requestHeaders, requestParams });
+//     return {
+//       data: `You've choosen ${requestBody.selected}!`,
+//     };
+//   },
+// });
 
-stubr.register({
-  name: "GET",
-  route: "/jsframeworks",
-  method: Method.GET,
-  validate: (
-    requestHeaders: object,
-    requestBody: object,
-    requestParams: object
-  ) => {
-    return true;
-  },
-  responseCode: 200,
-  responseBody: {
-    frameworks: ["vue", "react", "angular", "svelte"],
-  },
-});
+// /**
+//  * ========== register route test =========
+//  */
 
-stubr.register({
-  name: "POST",
-  route: "/jsframeworks",
-  method: Method.POST,
-  validate: (
-    requestHeaders: object,
-    requestBody: object,
-    requestParams: object
-  ) => {
-    return true;
-  },
-  responseCode: 200,
-  responseBody: (
-    requestHeaders,
-    requestBody: { selected: string },
-    requestParams
-  ) => {
-    console.log({ requestBody, requestHeaders, requestParams });
-    return {
-      data: `You've choosen ${requestBody.selected}!`,
-    };
-  },
-});
-
-/**
- * ========== register route test =========
- */
-
-stubr.register({
-  name: "get selected",
-  route: "/test",
-  method: Method.POST,
-  validate: (
-    requestHeaders: object,
-    requestBody: object,
-    requestParams: object
-  ) => {
-    return true;
-  },
-  responseCode: 200,
-  responseBody: (
-    requestHeaders,
-    requestBody: { selected: string },
-    requestParams
-  ) => {
-    console.log({ requestBody, requestHeaders, requestParams });
-    return {
-      data: `You've choosen ${requestBody.selected}!`,
-    };
-  },
-});
+// stubr.register({
+//   name: "get selected",
+//   route: "/test",
+//   method: Method.POST,
+//   validate: (
+//     requestHeaders: object,
+//     requestBody: object,
+//     requestParams: object
+//   ) => {
+//     return true;
+//   },
+//   responseCode: 200,
+//   responseBody: (
+//     requestHeaders,
+//     requestBody: { selected: string },
+//     requestParams
+//   ) => {
+//     console.log({ requestBody, requestHeaders, requestParams });
+//     return {
+//       data: `You've choosen ${requestBody.selected}!`,
+//     };
+//   },
+// });
 
 // start Stubr
 stubr.run();
