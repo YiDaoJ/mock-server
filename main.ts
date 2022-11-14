@@ -28,6 +28,31 @@ stubr.register({
   },
 });
 
+type EventType = {
+  eventId: string | number;
+};
+
+stubr.register({
+  name: "GET",
+  route: "/events/{eventId}",
+  method: Method.GET,
+  validate: (
+    requestHeaders: object,
+    requestBody: object,
+    requestParams: object
+  ) => {
+    return true;
+  },
+  responseCode: 200,
+  responseBody: (requestHeaders, requestBody, requestParams: EventType) => {
+    return {
+      event: events.find(
+        (e) => e.id.toString() === requestParams.eventId.toString()
+      ),
+    };
+  },
+});
+
 // stubr.register({
 //   name: "POST",
 //   route: "/jsframeworks",
