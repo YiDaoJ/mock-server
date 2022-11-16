@@ -1,11 +1,11 @@
 import Stubr from "stubr";
 import { Method } from "stubr";
-import { events } from "./utils";
+import { events, iEvent } from "./utils";
 
 // instantiate Stubr
 const stubr = new Stubr({
   stubsPort: 4000,
-  uiPort: 5001,
+  uiPort: 5001
 });
 
 /**
@@ -24,8 +24,8 @@ stubr.register({
   },
   responseCode: 200,
   responseBody: {
-    events,
-  },
+    events
+  }
 });
 
 type EventType = {
@@ -48,34 +48,35 @@ stubr.register({
     return {
       event: events.find(
         (e) => e.id.toString() === requestParams.eventId.toString()
-      ),
+      )
     };
-  },
+  }
 });
 
-// stubr.register({
-//   name: "POST",
-//   route: "/jsframeworks",
-//   method: Method.POST,
-//   validate: (
-//     requestHeaders: object,
-//     requestBody: object,
-//     requestParams: object
-//   ) => {
-//     return true;
-//   },
-//   responseCode: 200,
-//   responseBody: (
-//     requestHeaders,
-//     requestBody: { selected: string },
-//     requestParams
-//   ) => {
-//     console.log({ requestBody, requestHeaders, requestParams });
-//     return {
-//       data: `You've choosen ${requestBody.selected}!`,
-//     };
-//   },
-// });
+stubr.register({
+  name: "POST",
+  route: "/events",
+  method: Method.POST,
+  validate: (
+    requestHeaders: object,
+    requestBody: object,
+    requestParams: object
+  ) => {
+    return true;
+  },
+  responseCode: 200,
+  responseBody: (
+    requestHeaders,
+    requestBody: { event: iEvent },
+    requestParams
+  ) => {
+    // console.log({ requestBody, requestHeaders, requestParams });
+    events.push(requestBody.event);
+    return {
+      data: `You've created event:  ${requestBody}!`
+    };
+  }
+});
 
 // /**
 //  * ========== register route test =========
