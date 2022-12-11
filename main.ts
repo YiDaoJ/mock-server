@@ -1,11 +1,11 @@
-import Stubr from "stubr";
-import { Method } from "stubr";
+import Stubr, { Method } from "stubr";
+import { v4 as uuidv4 } from "uuid";
 import { events, iEvent } from "./utils";
 
 // instantiate Stubr
 const stubr = new Stubr({
-  stubsPort: 4000,
-  uiPort: 5001
+  stubsPort: 4080,
+  uiPort: 5001,
 });
 
 /**
@@ -24,8 +24,8 @@ stubr.register({
   },
   responseCode: 200,
   responseBody: {
-    events
-  }
+    events,
+  },
 });
 
 type EventType = {
@@ -48,9 +48,9 @@ stubr.register({
     return {
       event: events.find(
         (e) => e.id.toString() === requestParams.eventId.toString()
-      )
+      ),
     };
-  }
+  },
 });
 
 stubr.register({
@@ -67,15 +67,15 @@ stubr.register({
   responseCode: 200,
   responseBody: (
     requestHeaders,
-    requestBody: { event: iEvent },
+    requestBody: { event: Omit<iEvent, "id"> },
     requestParams
   ) => {
-    // console.log({ requestBody, requestHeaders, requestParams });
-    events.push(requestBody.event);
+    const newEvent = { ...requestBody.event, id: uuidv4() } as iEvent;
+    events.push(newEvent);
     return {
-      data: `You've created event:  ${requestBody}!`
+      event: newEvent,
     };
-  }
+  },
 });
 
 // /**
